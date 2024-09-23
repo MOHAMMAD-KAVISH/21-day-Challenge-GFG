@@ -1,0 +1,21 @@
+class Solution {
+  public:
+    vector<int> findTwoElement(vector<int>& arr) {
+        // code here
+        int n=arr.size();
+        vector<int>count(n+1,0);
+        for(int a:arr){
+            count[a]++;
+        }
+        int a=-1,b=-1;
+        for(int i=1;i<=arr.size();i++){
+            if(count[i]==2){
+                a=i;
+            }
+            if(count[i]==0){
+                b=i;
+            }
+        }
+        return {a,b};
+    }
+};
