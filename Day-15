@@ -1,0 +1,40 @@
+string smallestWindow (string s, string p)
+    {
+        // Your code here
+        vector<int> pCount(128, 0);
+        vector<int> winCount(128, 0);
+        int minLength = INT_MAX;
+        int left = 0, matchCount = 0;
+        int startIndex = 0;
+        
+        for (char ch : p) {
+            pCount[ch]++;
+        }
+        
+        for (int right = 0; right < s.size(); ++right) {
+            char ch = s[right];
+            winCount[ch]++;
+        
+            if (pCount[ch] != 0 && winCount[ch] <= pCount[ch]) {
+                matchCount++;
+            }
+        
+            while (matchCount == p.size()) {
+                if (right - left + 1 < minLength) {
+                    minLength = right - left + 1;
+                    startIndex = left;
+                }
+        
+                char leftChar = s[left];
+                winCount[leftChar]--;
+        
+                if (pCount[leftChar] != 0 && winCount[leftChar] < pCount[leftChar]) {
+                    matchCount--;
+                }
+        
+                left++;
+            }
+        }
+        
+        return (minLength == INT_MAX) ? "-1" : s.substr(startIndex, minLength);
+    }
