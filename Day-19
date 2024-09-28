@@ -1,0 +1,32 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+
+int minCostToReachLastStone(int k, vector<int>& arr) {
+    int n = arr.size();
+    vector<int> dp(n, INT_MAX);  // Initialize dp array with a large value
+    dp[0] = 0;  // Starting point, no cost
+
+    // Iterate over each stone
+    for (int i = 1; i < n; i++) {
+        // For each stone, check possible jumps up to k stones back
+        for (int j = 1; j <= k; j++) {
+            if (i - j >= 0) {
+                dp[i] = min(dp[i], dp[i - j] + abs(arr[i] - arr[i - j]));
+            }
+        }
+    }
+
+    // Return the minimum cost to reach the last stone
+    return dp[n - 1];
+}
+
+int main() {
+    int k = 3;
+    vector<int> arr = {10, 30, 40, 50, 20};
+    cout << minCostToReachLastStone(k, arr) << endl;  // Output: 30
+    
+    return 0;
+}
